@@ -21,6 +21,8 @@ dati_clean <- dati_caricati %>%
 # Converti in formato xts
 dati_xts <- xts(dati_clean[,-1], order.by = dati_clean$date)
 
-# Calcola i rendimenti logaritmici
+# Calcola i rendimenti logaritmici e crea csv
 rendimenti <- na.omit(Return.calculate(dati_xts, method = "log"))
+
+write.csv(rendimenti, file = "rendimenti_logaritmici.csv", row.names = FALSE)
 
