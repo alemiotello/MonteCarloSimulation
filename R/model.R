@@ -63,10 +63,10 @@ if (!isTRUE(all.equal(sigma_matrix, t(sigma_matrix), tolerance = 1e-10))) {
 }
 
 # 4. Generazione portafogli
+n_portafogli <- 10000
 log_info("Generazione di {n_portafogli} portafogli casuali")
 mu <- colMeans(rendimenti)
 n_assets <- length(mu)
-n_portafogli <- 10000
 rf <- 0.035   #risk-free rate
 
 set.seed(42)
@@ -92,13 +92,32 @@ results_df <- data.frame(
 log_info("Identificazione portafogli ottimali")
 idx_min_var <- which.min(results_df$Risk)
 idx_max_sharpe <- which.max(results_df$Sharpe)
+weights_min_var <- weights_matrix[idx_min_var, ]
+weights_max_sharpe <- weights_matrix[idx_max_sharpe, ]
+asset_names <- colnames(rendimenti)
+weights_min_var_named <- setNames(weights_min_var, asset_names)
+weights_max_sharpe_named <- setNames(weights_max_sharpe, asset_names)
 
 log_info("\nRISULTATI PRINCIPALI:",
-         "\n- Portafoglio a minima varianza: Return = {results_df$Return[idx_min_var]}, Risk = {results_df$Risk[idx_min_var]}",
-         "\n- Portafoglio a max Sharpe: Return = {results_df$Return[idx_max_sharpe]}, Risk = {results_df$Risk[idx_max_sharpe]}, Sharpe = {results_df$Sharpe[idx_max_sharpe]}")
+         "\n- Portafoglio a minima varianza: Return = {round(results_df$Return[idx_min_var], 4)}, Risk = {round(results_df$Risk[idx_min_var], 4)}",
+         "\n  Pesi: {paste(names(weights_min_var_named), round(weights_min_var_named, 4), sep = ': ', collapse = ', ')}",
+         "\n- Portafoglio a max Sharpe: Return = {round(results_df$Return[idx_max_sharpe], 4)}, Risk = {round(results_df$Risk[idx_max_sharpe], 4)}, Sharpe = {round(results_df$Sharpe[idx_max_sharpe], 4)}",
+         "\n  Pesi: {paste(names(weights_max_sharpe_named), round(weights_max_sharpe_named, 4), sep = ': ', collapse = ', ')}")
 
+# 7. Salvataggio dei pesi in CSV
+log_info("Salvataggio informazioni sui pesi in 'portafogli_ottimali.csv'")
+
+df_pesi <- rbind(
+  data.frame(Tipo = "Minima Varianza", Asset = names(weights_min_var_named), Peso = weights_min_var_named),
+  data.frame(Tipo = "Massimo Sharpe", Asset = names(weights_max_sharpe_named), Peso = weights_max_sharpe_named)
+)
+
+write.csv(df_pesi, file = "portafogli_ottimali.csv", row.names = FALSE)
 
 log_success("Analisi completata con successo")
+
+
+save(results_df, idx_min_var, idx_max_sharpe, weights_min_var_named, weights_max_sharpe_named, file = "risultati_analisi.RData")
 }
 # Esecuzione con gestione degli errori
 tryCatch({

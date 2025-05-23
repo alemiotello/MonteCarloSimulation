@@ -1,7 +1,9 @@
 library(ggrepel)
 library(ggplot2)
 
-# 7. Output grafico
+load("risultati_analisi.RData")
+
+# 7. Output grafico frontiera efficiente
 g <- ggplot(results_df, aes(x = Risk, y = Return, color = Sharpe)) +
   geom_hex(bins = 50) +
   geom_point(data = results_df[idx_min_var, ], aes(x = Risk, y = Return), 
@@ -13,3 +15,4 @@ g <- ggplot(results_df, aes(x = Risk, y = Return, color = Sharpe)) +
   theme_minimal()
 
 print(g)
+
