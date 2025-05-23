@@ -1,0 +1,17 @@
+"Tipo","Asset","Peso"
+"Minima Varianza","AAPL",0.0452397133288752
+"Minima Varianza","MSFT",0.0127600956256871
+"Minima Varianza","JNJ",0.138689498169391
+"Minima Varianza","VOO",0.153227943405487
+"Minima Varianza","TLT",0.220785306316116
+"Minima Varianza","GLD",0.0687414064206383
+"Minima Varianza","XLE",0.174585743861033
+"Minima Varianza","SH",0.185970292872774
+"Massimo Sharpe","AAPL",0.00762071464293645
+"Massimo Sharpe","MSFT",0.244594626935206
+"Massimo Sharpe","JNJ",0.0349370848762743
+"Massimo Sharpe","VOO",0.04640330082917
+"Massimo Sharpe","TLT",0.00306751282842142
+"Massimo Sharpe","GLD",0.276443025823064
+"Massimo Sharpe","XLE",0.180079987450463
+"Massimo Sharpe","SH",0.206853746614464
